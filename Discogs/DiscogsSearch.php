@@ -18,8 +18,8 @@ class DiscogsSearch implements SearchInterface {
      */
     public function __construct(HttpClient $client) {
         $this->httpClient = new HttpClient(['base_url' => 'https://api.discogs.com/database/search']);
-        $this->secret = 'vjowoWuguZQTpelgTsqxITaggqNKDWHr';
-        $this->key    = 'thhUkjaXGICwVHZBWSju';
+        $this->key = env('DISCOGS_KEY');
+        $this->secret = env('DISCOGS_SECRET');
     }
 
     /**

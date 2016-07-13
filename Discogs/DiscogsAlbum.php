@@ -25,8 +25,8 @@ class DiscogsAlbum {
     public function __construct(DiscogsArtist $discogsArtist) {
         $this->httpClient = new HttpClient(['base_url' => 'https://api.discogs.com/']);
         $this->discogsArtist = $discogsArtist;
-        $this->key = 'thhUkjaXGICwVHZBWSju';
-        $this->secret = 'vjowoWuguZQTpelgTsqxITaggqNKDWHr';
+        $this->key = env('DISCOGS_KEY');
+        $this->secret = env('DISCOGS_SECRET');
     }
 
     /**

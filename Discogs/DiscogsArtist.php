@@ -18,6 +18,9 @@ class DiscogsArtist {
         $this->httpClient = new HttpClient([
             'base_url' => 'https://api.discogs.com/',
         ]);
+
+        $this->key = env('DISCOGS_KEY');
+        $this->secret = env('DISCOGS_SECRET');
     }
 
     /**
@@ -45,20 +48,18 @@ class DiscogsArtist {
      */
     public function getArtist($identifier = null)
     {
-        if ($identifier) {
-            $identifier = $this->getArtistDiscogsId($identifier);
-        }
-
         if ( ! $identifier) return [];
 
+        $identifier = $this->getArtistDiscogsId($identifier);
+
         $mainData = $this->httpClient->get("artists/$identifier", ['query' => [
-            'key'    => 'thhUkjaXGICwVHZBWSju',
-            'secret' => 'vjowoWuguZQTpelgTsqxITaggqNKDWHr'
+            'key'    => $this->key,
+            'secret' => $this->secret
         ]]);
 
         $albums = $this->httpClient->get("artists/$identifier/releases", ['query' => [
-            'key'      => 'thhUkjaXGICwVHZBWSju',
-            'secret'   => 'vjowoWuguZQTpelgTsqxITaggqNKDWHr',
+            'key'      => $this->key,
+            'secret'   => $this->secret,
             'per_page' => 100,
             'sort'     => 'year',
             'sort_order' => 'desc',
@@ -72,8 +73,8 @@ class DiscogsArtist {
         }
 
         $fullAlbum = $this->httpClient->get("masters/$id", ['query' => [
-            'key'      => 'thhUkjaXGICwVHZBWSju',
-            'secret'   => 'vjowoWuguZQTpelgTsqxITaggqNKDWHr'
+            'key'      => $this->key,
+            'secret'   => $this->secret
         ]]);
 
         return $this->formatArtistData($mainData, $albums, $fullAlbum);
@@ -165,8 +166,8 @@ class DiscogsArtist {
         $response = $this->httpClient->get('database/search', ['query' => [
             'q'      => str_replace('/', '+', $artistName),
             'type'   => 'artist',
-            'key'    => 'thhUkjaXGICwVHZBWSju',
-            'secret' => 'vjowoWuguZQTpelgTsqxITaggqNKDWHr'
+            'key'    => $this->key,
+            'secret' => $this->secret
         ]]);
 
         foreach ($response['results'] as $result) {
