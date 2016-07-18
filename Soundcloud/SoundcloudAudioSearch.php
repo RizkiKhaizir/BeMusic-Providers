@@ -1,4 +1,4 @@
-<?php namespace pp\Services\Providers\Soundcloud;
+<?php namespace App\Services\Providers\Soundcloud;
 
 use App;
 use GuzzleHttp\Client;
