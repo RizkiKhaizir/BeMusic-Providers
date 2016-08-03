@@ -59,10 +59,14 @@ class LastfmGenres {
         ini_set('max_execution_time', 0);
     }
 
-    public function getGenres($genreNames)
+    public function getGenres($genreNames = null)
     {
-        return Cache::remember('last.fm'.$genreNames, Carbon::now()->addDays(2), function() {
-            return $this->getMostPopular();
+        return Cache::remember('lastfm.genres', Carbon::now()->addDays(2), function() use($genreNames) {
+            if ($genreNames) {
+                return $this->formatGenres($genreNames)['formatted'];
+            } else {
+                return $this->getMostPopular();
+            }
         });
     }
 
