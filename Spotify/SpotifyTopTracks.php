@@ -36,7 +36,7 @@ class SpotifyTopTracks {
 
     public function getTopTracks()
     {
-        $csv = file_get_contents('https://spotifycharts.com/regional/global/daily/latest/download');
+        $csv = $this->getSpotifyChartsCsv();
 
         $split = explode("\n", $csv);
 
@@ -74,6 +74,20 @@ class SpotifyTopTracks {
         $albums = $this->saveAlbums($tracks, $artists);
 
         return $this->saveTracks($tracks, $albums)->values();
+    }
+
+    /**
+     * Get spotify charts data in csv format.
+     * 
+     * @return string
+     */
+    private function getSpotifyChartsCsv()
+    {
+        $ch = curl_init('https://spotifycharts.com/regional/global/daily/latest/download');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
     }
 
     private function getTracks($ids)

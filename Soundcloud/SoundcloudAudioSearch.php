@@ -35,7 +35,7 @@ class SoundcloudAudioSearch {
         ]);
 
         $this->settings = App::make('Settings');
-        $this->key = $this->settings->get('soundcloud_api_key');
+        $this->key = env('SOUNDCLOUD_API_KEY');
     }
 
     /**
@@ -77,7 +77,7 @@ class SoundcloudAudioSearch {
 
         //find the closest match in result title
         $match = ! empty($filtered) ? $this->getClosestMatch($filtered, $artistName, $trackName) : head($response);
-
+            
         $formatted['name'] = $match['title'];
         $formatted['id']   = $match['uri'];
 

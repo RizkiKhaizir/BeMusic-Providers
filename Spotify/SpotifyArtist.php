@@ -85,7 +85,7 @@ class SpotifyArtist {
 
         if (isset($response['artists'])) {
             foreach($response['artists'] as $artist) {
-                $formatted[] = $this->formatArtistInfo($artist);
+                $formatted[] = $this->formatArtistInfo($artist, 0);
             }
         }
 
@@ -289,7 +289,7 @@ class SpotifyArtist {
      * @param array $data
      * @return array
      */
-    private function formatArtistInfo($data)
+    private function formatArtistInfo($data, $fullyScraped = 1)
     {
         $formatted = array();
 
@@ -299,7 +299,7 @@ class SpotifyArtist {
             $formatted['spotify_popularity'] = $data['popularity'] ?: null;
             $formatted['image_small'] = $this->getImage($data['images'], 2);
             $formatted['image_large'] = $this->getImage($data['images']);
-            $formatted['fully_scraped'] = 1;
+            $formatted['fully_scraped'] = $fullyScraped;
             $formatted['updated_at'] = Carbon::now()->toDateTimeString();
         }
 
