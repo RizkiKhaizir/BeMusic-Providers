@@ -14,6 +14,15 @@ use App\Services\Providers\Spotify\SpotifyArtist;
 class LastfmGenres {
 
     /**
+     * Links of artist placeholder images on last.fm
+     * 
+     * @var Array
+     */
+    private $lastfmPlaceholderImages = [
+        'https://lastfm-img2.akamaized.net/i/u/289e0f7b270445e5c550714f606fd8fd.png'
+    ];
+
+    /**
      * HttpClient instance.
      *
      * @var HttpClient
@@ -118,9 +127,12 @@ class LastfmGenres {
 
         foreach($artists as $artist) {
             if ( ! $this->collectionContainsArtist($artist['name'], $formatted)) {
+
+                $img = ! in_array($artist['image'][4]['#text'], $this->lastfmPlaceholderImages) ? $artist['image'][4]['#text'] : null;
+               
                 $formatted[] = [
                     'name' => $artist['name'],
-                    'image_small' => $artist['image'][4]['#text'],
+                    'image_small' => $img,
                     'fully_scraped' => 0,
                 ];
 

@@ -297,7 +297,11 @@ class SpotifyArtist {
             $formatted['spotify_followers'] = $data['followers']['total'] ?: null;
             $formatted['name'] = $data['name'] ?: null;
             $formatted['spotify_popularity'] = $data['popularity'] ?: null;
-            $formatted['image_small'] = $this->getImage($data['images'], 2);
+
+            //make sure we don't get too small image as it will be streched on front end
+            $smallImageIndex = (isset($data['images'][2]) && isset($data['images'][2]['width']) && $data['images'][2]['width'] < 170) ? 1 : 2;
+            $formatted['image_small'] = $this->getImage($data['images'], $smallImageIndex);
+
             $formatted['image_large'] = $this->getImage($data['images']);
             $formatted['fully_scraped'] = $fullyScraped;
             $formatted['updated_at'] = Carbon::now()->toDateTimeString();
